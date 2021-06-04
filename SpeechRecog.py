@@ -31,6 +31,8 @@ r.pause_threshold = 1
 stopCommand = "Stop Alfred"
 startCommand = "Alfred"
 
+webBroswerLocation = r""
+
 ##Actions---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def tts(said):
@@ -41,7 +43,7 @@ def tts(said):
 def lookUp(said):
     url = "https://www.google.com/search?client=firefox-b-1-d&q="
     webbrowser.register("firefox", None, 
-    webbrowser.BackgroundBrowser(r"C:\Program Files\Mozilla Firefox\firefox.exe"))
+    webbrowser.BackgroundBrowser(webBroswerLocation))
     webbrowser.get("firefox").open(url + said)
 
 def WallpaperKeyBind(keyword):
@@ -146,30 +148,11 @@ def WhatSaid(said):
 #check for alfred is couroutine, getting full line of text is not
 
 
-# Voice activated
-# def loopRecord():
-#     recog = "None"
-#     while recog.lower() != stopCommand.lower():
-#         if recog.lower() == startCommand.lower() or kb.is_pressed("`+shift"):
-#             winsound.Beep(500, 200)
-#             winsound.Beep(1000, 200)
-#             commandSetup = audioCap(mic, r, True)
-#             recog = commandSetup["transcription"]
-#             if not(recog):
-#                 recog = "None"
-#             WhatSaid(recog.lower())
-#         else:
-#             setup = audioCap(mic, r)
-#             recog = setup["transcription"]
-#             if not(recog):
-#                 recog = "None"
-#             print(recog)
-
-#Keybind Only
+#Voice activated
 def loopRecord():
     recog = "None"
     while recog.lower() != stopCommand.lower():
-        if kb.is_pressed("`+shift"):
+        if recog.lower() == startCommand.lower() or kb.is_pressed("`+shift"):
             winsound.Beep(500, 200)
             winsound.Beep(1000, 200)
             commandSetup = audioCap(mic, r, True)
@@ -177,7 +160,26 @@ def loopRecord():
             if not(recog):
                 recog = "None"
             WhatSaid(recog.lower())
-        time.sleep(1)
+        else:
+            setup = audioCap(mic, r)
+            recog = setup["transcription"]
+            if not(recog):
+                recog = "None"
+            print(recog)
+
+# #Keybind Only
+# def loopRecord():
+#     recog = "None"
+#     while recog.lower() != stopCommand.lower():
+#         if kb.is_pressed("`+shift"):
+#             winsound.Beep(500, 200)
+#             winsound.Beep(1000, 200)
+#             commandSetup = audioCap(mic, r, True)
+#             recog = commandSetup["transcription"]
+#             if not(recog):
+#                 recog = "None"
+#             WhatSaid(recog.lower())
+#         time.sleep(1)
 
 if __name__ == "__main__":
     assert(cs.get("launch league"))
